@@ -1,0 +1,20 @@
+for i in range(11):
+        col = wellPlate.columns()[i+1]
+        for x in range(8):
+            row = wellPlate.rows()[x]
+            
+            csv_row = csv_reader.__next__()
+
+            p300.flow_rate.apirate = float(csv_row['aspirate_rate'])
+            p300.flow_rate.dispense = float(csv_row['dispense_rate'])
+            p300.flow_rate.blow_out = float(csv_row['blow_out_rate'])
+            mix_amount = float(csv_row['amount_mixed'])
+            mix_times = int(csv_row['times_mixed'])
+            blowout_height = float(csv_row['blow_out_height'])
+            touchtip_height = float(csv_row['touch_tip_height'])
+
+            p300.aspirate(20, row[0])
+            p300.dispense(20, col[x])
+            p300.move_to(col[x].top(z = blowout_height))
+            p300.blow_out()
+            p300.touch_tip(col[x], v_offset = touchtip_height)
